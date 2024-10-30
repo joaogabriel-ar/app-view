@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  app:
+    image: node:18
+    container_name: app-view
+    working_dir: /app-view
+    volumes:
+      - .:/app-view
+      - .:/app-view/node-modules
+    ports:
+      - "3000:3000"
+    networks:
+      - app-view-network
+    command: sh -c "npm install && npm run dev"
+
+networks:
+  app-view-network:
+    driver: bridge
