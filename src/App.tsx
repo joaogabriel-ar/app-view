@@ -6,6 +6,16 @@ import axios from 'axios';
 import { API_BASE_URL } from '../config';
 import InfoCards from './components/InfoCards';
 import MainInfo from './components/main/MainInfo';
+import AssetsList from './interfaces/AssetsPaginated';
+import AssetsPaginated from './interfaces/AssetsPaginated';
+
+interface WalletResponse {
+  assets_count: number;
+  buy_transactions_count:number;
+  sell_transactions_count:number;
+  wallet_assets: AssetsList;
+  wallet_balance:string;
+}
 
 function App() {
   const [balance, setBalance] = useState<number>(0);
@@ -13,7 +23,7 @@ function App() {
   const [sellCount, setSellCount] = useState<number>(0);
   const [buyCount, setBuyCount] = useState<any>(0);
   const [loading, setLoading] = useState<boolean>(false);
-  const [assetsList, setAssetsList] = useState<any>(0);
+  const [assetsPaginated, setAssetsPaginated] = useState<AssetsPaginated | null>(null);
 
   useEffect(() => {
     getData();
@@ -24,14 +34,15 @@ function App() {
 
       setLoading(true);
 
-      const response = await axios.get(API_BASE_URL + '/wallet/assets/info');
+      const response = await axios.get<WalletResponse>(API_BASE_URL + '/wallet/assets/info');
       
       if (response.data) {
-        
-        setBalance(response.data.wallet_balance);
+          
+        setBalance(parseFloat(response.data.wallet_balance));
         setAssetsCount(response.data.assets_count);
         setSellCount(response.data.sell_transactions_count);
         setBuyCount(response.data.buy_transactions_count);
+        setAssetsPaginated(response.data.wallet_assets);
         setLoading(false);
       }
     } catch (err: any) {
@@ -54,7 +65,7 @@ function App() {
     <Wrapper> 
       <Header />
       <InfoCards loading={loading} balance={balance} assetsCount={assetsCount} sellCount={sellCount} buyCount={buyCount}/>
-      <MainInfo/>
+      <MainInfo assetsPaginated={assetsPaginated}/>
     </Wrapper>
   );
 }

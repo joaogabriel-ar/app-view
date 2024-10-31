@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import formatter from "../helpers";
 
 
 interface ChildProps {
@@ -9,10 +10,6 @@ interface ChildProps {
     loading: boolean;
 }
 
-const formatter = new Intl.NumberFormat('pt-BR', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-});
 
 export default function InfoCards({ loading, balance, assetsCount, sellCount, buyCount }: ChildProps) {
 

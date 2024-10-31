@@ -1,10 +1,15 @@
+import AssetsPaginated from "../../interfaces/AssetsPaginated";
 import ListCard from "./ListCard";
 
-export default function MainInfo() {
+interface MainInfoProps {
+    assetsPaginated: AssetsPaginated | null;
+}
+  
+export default function MainInfo({assetsPaginated}:MainInfoProps) {
 
-    return(
+    return (
         <>
-            <ListCard/>
+            <ListCard assetsPaginated={assetsPaginated} />
         </>
     )
 
