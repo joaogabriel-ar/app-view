@@ -2,10 +2,14 @@ import styled from "styled-components";
 import MainInfoProps from "../../interfaces/MainInfoProps";
 import Asset from "../../interfaces/Asset";
 import formatter from "../../helpers";
+import Pagination from "./Pagination";
+import Link from "../../interfaces/Link";
+import axios from 'axios';
+import WalletResponse from "../../interfaces/WalletResponse";
+import { useEffect, useState } from "react";
 
-export default function ListCard({assetsPaginated}:MainInfoProps) {
 
-    console.log(assetsPaginated);
+export default function ListCard({assetsPaginated , handleAssetsPaginated}:MainInfoProps) {
 
     const Card = styled.div`        
     display: flex;
@@ -73,7 +77,39 @@ export default function ListCard({assetsPaginated}:MainInfoProps) {
         width:100%;
         padding-block:10px;
 
-    `;  
+    `;
+
+    const [page, setPage] = useState<string | undefined>(undefined);
+
+    async function paginate() {
+        
+        if(assetsPaginated && page) {
+
+            let link = assetsPaginated.links.find((l:Link) => l.label == page);
+    
+            if(link && link.url) {
+        
+                const response = await axios.get<WalletResponse>(link.url);
+                
+                if(response.data) {
+    
+                    handleAssetsPaginated(response.data.wallet_assets);
+                    
+                }
+    
+            }
+        }
+    }
+
+    useEffect(() => {
+        paginate();
+      }, [page]);
+
+    function handlePagination (page: string | undefined) {
+        setPage(page);
+        
+    }
+      
 
     return(
         <Card>
@@ -105,11 +141,7 @@ export default function ListCard({assetsPaginated}:MainInfoProps) {
                     })
                 ) : <div>none</div>
             }
-            <ListContainer>
-                <ListCard>
-                    
-                </ListCard>
-            </ListContainer>
+            <Pagination links={assetsPaginated?.links} sendPage={handlePagination}/>
         </Card>
     )
 

@@ -50,6 +50,13 @@ function App() {
     }
   }
 
+  function handleAssetsPaginated(newAssetsPaginated: AssetsPaginated) {
+    console.log(newAssetsPaginated);
+    
+    setAssetsPaginated(newAssetsPaginated);
+
+  }
+
   const Wrapper = styled.div`
     height: 50%;
     width: 80%;
@@ -65,7 +72,7 @@ function App() {
     <Wrapper> 
       <Header />
       <InfoCards loading={loading} balance={balance} assetsCount={assetsCount} sellCount={sellCount} buyCount={buyCount}/>
-      <MainInfo assetsPaginated={assetsPaginated}/>
+      <MainInfo assetsPaginated={assetsPaginated} handleAssetsPaginated={handleAssetsPaginated}/>
     </Wrapper>
   );
 }

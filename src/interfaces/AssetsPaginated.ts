@@ -14,5 +14,5 @@ export default interface AssetsPaginated {
     to: number;
     total: number;
     data: Asset[];
-    link: Link[];
+    links: Link[];
 };
