@@ -9,10 +9,11 @@ import { GrFormPrevious } from "react-icons/gr";
 
 interface Pagination {
     links:Link[] | undefined;
-    sendPage: Function;
+    handlePagination: Function;
+    page: number | undefined;
 }
 
-export default function Pagination ({links, sendPage}: Pagination) {
+export default function Pagination ({links, handlePagination,page }: Pagination) {
 
     const PaginatorContainer = styled.div`
         width: 100%;
@@ -43,71 +44,56 @@ export default function Pagination ({links, sendPage}: Pagination) {
         cursor: pointer;
     `;
 
-    function getPage(page:number | undefined) {
-        
+    function handlePageChange(next: boolean, first: boolean, last: boolean) {        
 
-        sendPage(String(page));
+        if(page === undefined || !links) {
+            return;
+        }
+        
+        if(!next && !first && !last) {
+            
+            let prev = page - 1;
+            
+            handlePagination(prev);
+            
+        } else if(next) {
+            
+            let next = page + 1;
+
+            handlePagination(next);
+
+        } else if (first) {
+
+            handlePagination(0);
+
+        } else {
+
+            handlePagination(links.length - 1);
+
+        }
 
     }
     
     return (
         <PaginatorContainer>
             <LinkContainer>
-                <LinkItem>
-                    <MdFirstPage onClick={() => getPage(1)}/> 
+                <LinkItem onClick={() => handlePageChange(false, true, false)}>
+                    <MdFirstPage /> 
                 </LinkItem>
-                <LinkItem>
-                    <GrFormPrevious onClick={() => {
-                        let index:number|undefined = links?.findIndex((l) => l.active);
-                        
-                        if(index) {
-
-                            let prevPage = index - 1;
-
-                            if(prevPage <= 0) {
-                                return;
-                            }
-    
-                            getPage(prevPage - 1);
-                        }
-
-
-                    }} />
+                <LinkItem onClick={() => handlePageChange(false, false, false)}>
+                    <GrFormPrevious />
                 </LinkItem>
-                {
-                    links?.map((l:Link, index:number) => {
 
-                        if(index === links.length - 1 || index === 0) {
-                            return;
-                        }
-
-                        return (
-                            !l.active ? <LinkItem  onClick={() => getPage(index)}>{index}</LinkItem> : <LinkItemActive onClick={() => getPage(index)}>{index}</LinkItemActive>
-                        )
-                    })
-                }
-                <LinkItem>
-                    <MdOutlineNavigateNext onClick={() => {
-                            let index: number | undefined = links?.findIndex((l) => l.active);
-                            
-                            if (index) {
-
-                                let nextPage = index + 1                                
-
-                                if (links && nextPage >= links.length - 1) {
-                                    return;
-                                }
-
-                                getPage(nextPage);
-                            }
-                        }
-
-                    }
-                />
+                <LinkItemActive>
+                    {page}
+                </LinkItemActive>
+                
+                <LinkItem onClick={() =>handlePageChange(true, false, false) }>
+                    <MdOutlineNavigateNext />
 
                 </LinkItem>
-                <LinkItem>
-                    <MdOutlineLastPage onClick={() => getPage(links && links.length - 2)}/>
+                <LinkItem onClick={() => handlePageChange(false, false, true)}>
+                    <MdOutlineLastPage />
                 </LinkItem>
                 
             </LinkContainer>
