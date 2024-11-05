@@ -34,7 +34,7 @@ function App() {
 
   useEffect(() => {
     paginate();
-  }, []);
+  }, [page]);
 
   async function getData() {
     try {
@@ -63,16 +63,12 @@ function App() {
     if (assetsPaginated && page) {
 
       let link = assetsPaginated.links.find((l: Link) => parseInt(l.label) == page);
-      let activePage = assetsPaginated.links.find((l:Link) => l.active);
 
       if (link && link.url) {
 
         const response = await axios.get<WalletResponse>(link.url);
 
-        if (response.data) {
-
-          console.log(response.data.wallet_assets);
-          
+        if (response.data) {          
 
           setAssetsPaginated(response.data.wallet_assets);
 
@@ -82,8 +78,7 @@ function App() {
     }
   }
 
-  function handlePagination(page: number | undefined) {
-
+  function handlePagination(page: number | undefined) {    
     setPage(page);
 
   }

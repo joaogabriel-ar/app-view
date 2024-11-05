@@ -13,6 +13,20 @@ const Card = styled.div`
     
 `;
 
+const PaginationCard = styled.div`        
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    flex-direction:column;
+    flex: 1 1 150px;
+    gap: 10px;
+    padding: 1rem;
+    border-radius: 15px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    min-height: 400px;
+    
+`;
+
 const CardHeader = styled.div`        
     display: flex;
     justify-content: space-between;
@@ -55,6 +69,7 @@ const ListContainer = styled.div`
         flex-direction:column;
         gap:10px;
         width:100%;
+        min-height: 250px;
         `;
 
 const ListCardContainer = styled.div`
@@ -71,12 +86,11 @@ const ListCardContainer = styled.div`
 const MainInfoContainer = styled.div`
     display: flex;
     justify-content: center;
-    align-items:center;
+    align-items:start;
     flex-wrap: wrap;
+    gap: 15px;
 
 `;
-
-
 const Wrapper = styled.div`
     height: 50%;
     width: 80%;
@@ -86,6 +100,34 @@ const Wrapper = styled.div`
     align-items:left;
     flex-direction:column;
     gap:15px;
+    `;
+    const PaginatorContainer = styled.div`
+        width: 100%;
+        display: flex;
+        justify-content: right;
+
+    `
+
+    const LinkContainer = styled.div`
+        display: flex;
+        gap: 10px;
+        background-color: #e8ecee;
+        border-radius: 15px;
+        justify-content:center;
+        align-items:center
+    `;
+
+    const LinkItem = styled.div`
+        padding: 12px;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        cursor: pointer;
+        `;
+        const LinkItemActive = styled.div`
+        padding: 12px;
+        background-color: #6895f8;
+        cursor: pointer;
     `;
 
 export {
@@ -97,5 +139,10 @@ export {
     AddAssetButton,
     Title,
     Wrapper,
-    MainInfoContainer
+    MainInfoContainer,
+    PaginatorContainer,
+    LinkItem,
+    LinkItemActive,
+    LinkContainer,
+    PaginationCard
 };
