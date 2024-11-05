@@ -13,6 +13,16 @@ const Card = styled.div`
     
 `;
 
+const Actions = styled.div`
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:5px 10px 5px 10px;
+    background-color: #e7eef8;      
+    border-radius: 10px;
+`;
+
 const PaginationCard = styled.div`        
     display: flex;
     justify-content: center;
@@ -75,11 +85,11 @@ const ListContainer = styled.div`
 const ListCardContainer = styled.div`
         background-color: #fafafa;
         display:flex;
-        justify-content:space-around;
+        justify-content:space-between;
         align-items:center;
-        gap: 10px;
+        gap: 7px;
         width:100%;
-        padding-block:10px;
+        padding:10px;
 
     `;
 
@@ -127,6 +137,7 @@ const Wrapper = styled.div`
         const LinkItemActive = styled.div`
         padding: 12px;
         background-color: #6895f8;
+        color:white;
         cursor: pointer;
     `;
 
@@ -144,5 +155,6 @@ export {
     LinkItem,
     LinkItemActive,
     LinkContainer,
-    PaginationCard
+    PaginationCard,
+    Actions
 };

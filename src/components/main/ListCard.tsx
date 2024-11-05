@@ -1,10 +1,20 @@
 import Asset from "../../interfaces/Asset";
 import formatter from "../../helpers";
 import Pagination from "./Pagination";
-import { AddAssetButton, CardHeader, ListCardContainer, ListContainer, PaginationCard, SearchBar, Title } from "../../styles/styles";
+import { Actions, AddAssetButton, CardHeader, ListCardContainer, ListContainer, PaginationCard, SearchBar, Title } from "../../styles/styles";
 import ListCardI from "../../interfaces/ListCard";
+import { HiDotsHorizontal } from "react-icons/hi";
+import DropDownMenu from "../DropDownMenu";
+import { useState } from "react";
+
 
 export default function ListCard({assetsPaginated , handlePagination, page}: ListCardI) {
+
+    const [open, setOpen] = useState<boolean>(false);
+
+    function openDropDownMenu(index:number) {
+        setOpen(!open);
+    }
 
     return(
         <PaginationCard>
@@ -23,13 +33,17 @@ export default function ListCard({assetsPaginated , handlePagination, page}: Lis
             <ListContainer>
             {
                 assetsPaginated && assetsPaginated.data ? (
-                    assetsPaginated.data.map((item:Asset) => {                        
+                    assetsPaginated.data.map((item:Asset, index:number) => {                        
                         return <>
-                                <ListCardContainer>
+                                <ListCardContainer key={item.id}>
                                     <div>{item.id}</div>
                                     <div>{item.name}</div>
                                     <div>Saldo atual: <b> R$ {formatter.format(item.pivot.balance)}</b></div>
                                     <div>Quantidade: {item.pivot.quantity}</div>
+                                    <Actions onClick={() => openDropDownMenu(index)}>
+                                        <HiDotsHorizontal/>
+                                        {open && <DropDownMenu />}
+                                    </Actions>
                                 </ListCardContainer>
                         </>
                     })
