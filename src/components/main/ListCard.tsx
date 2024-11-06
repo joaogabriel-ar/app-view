@@ -10,10 +10,10 @@ import { useState } from "react";
 
 export default function ListCard({assetsPaginated , handlePagination, page}: ListCardI) {
 
-    const [open, setOpen] = useState<boolean>(false);
+    const [openedDropDown, setOpenedDropDown] = useState<number | null>(null);
 
     function openDropDownMenu(index:number) {
-        setOpen(!open);
+        setOpenedDropDown(openedDropDown === index ? null : index);
     }
 
     return(
@@ -42,7 +42,7 @@ export default function ListCard({assetsPaginated , handlePagination, page}: Lis
                                     <div>Quantidade: {item.pivot.quantity}</div>
                                     <Actions onClick={() => openDropDownMenu(index)}>
                                         <HiDotsHorizontal/>
-                                        {open && <DropDownMenu />}
+                                        {openedDropDown == index && <DropDownMenu />}
                                     </Actions>
                                 </ListCardContainer>
                         </>
